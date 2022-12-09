@@ -1,0 +1,12 @@
+# arm64
+
+version: '3.3'
+services:
+  nexus3:
+    ports:
+      - '5081:8081'
+      - '5000:5000'
+    container_name: nexus
+    volumes:
+      - '/app/nexus-data:/nexus-data'
+    image: klo2k/nexus3
