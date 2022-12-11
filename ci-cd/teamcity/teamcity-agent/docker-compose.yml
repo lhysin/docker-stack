@@ -1,0 +1,13 @@
+version: '3.3'
+services:
+  teamcity-agent-arm64v8:
+    container_name: teamcity-agent
+    volumes:
+      - '/app/teamcity-agent:/data/teamcity_agent/conf'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    privileged: true
+    environment:
+      - AGENT_NAME="oci-arm4c-teamcity-agent"
+      - DOCKER_IN_DOCKER="start"
+      - SERVER_URL="http://144.24.91.88:8111"/'
+    image: 'vlrpi/teamcity-agent-arm64v8:ubuntu-xenial-2021.1'
