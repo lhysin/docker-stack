@@ -21,11 +21,3 @@ services:
       - '/app/gitlab-runner/config:/etc/gitlab-runner'
       - '/var/run/docker.sock:/var/run/docker.sock'
     image: 'gitlab/gitlab-runner:latest'
-  sonatype-nexus3:
-    ports:
-      - '5081:8081'
-      - '5000:5000'
-    container_name: nexus
-    volumes:
-      - '/app/nexus-data:/nexus-data'
-    image: klo2k/nexus3

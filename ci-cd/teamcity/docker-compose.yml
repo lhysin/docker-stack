@@ -1,31 +1,44 @@
 version: '3.3'
 services:
-  gitlab-ce-arm64v8:
-    restart: always
-    container_name: gitlab-ce
-    privileged: false
+  teamcity-server:
+    container_name: teamcity-server
+    volumes:
+      - '/app/teamcity-server/datadir:/data/teamcity_server/datadir'
+      - '/app/teamcity-server/logs:/opt/teamcity/logs'
     ports:
-      - '8180:80'
-    hostname: 144.24.91.88
-    environment:
-      - GITLAB_OMNIBUS_CONFIG="nginx['redirect_http_to_https'] = true ";
+      - '8111:8111'
+    image: 'vlrpi/teamcity-server:ubuntu-xenial-2021.1'
+version: '3.3'
+  teamcity-agent-1:
+    container_name: teamcity-agent-1
     volumes:
-      - '/app/gitlab-ce/conf:/etc/gitlab:z'
-      - '/app/gitlab-ce/logs:/var/log/gitlab:z'
-      - '/app/gitlab-ce/data:/var/opt/gitlab:z'
-    image: 'yrzr/gitlab-ce-arm64v8:latest'
-  gitlab-runner:
-    container_name: gitlab-runner
-    restart: always
-    volumes:
-      - '/app/gitlab-runner/config:/etc/gitlab-runner'
+      - '/app/teamcity-agent-1:/data/teamcity_agent/conf'
       - '/var/run/docker.sock:/var/run/docker.sock'
-    image: 'gitlab/gitlab-runner:latest'
-  sonatype-nexus3:
-    ports:
-      - '5081:8081'
-      - '5000:5000'
-    container_name: nexus
+    privileged: true
+    environment:
+      - AGENT_NAME="oci-arm4c-teamcity-agent"
+      - DOCKER_IN_DOCKER="start"
+      - SERVER_URL="http://144.24.91.88:8111"/'
+    image: 'vlrpi/teamcity-agent-arm64v8:ubuntu-xenial-2021.1'
+  teamcity-agent-2:
+    container_name: teamcity-agent-2
     volumes:
-      - '/app/nexus-data:/nexus-data'
-    image: klo2k/nexus3
+      - '/app/teamcity-agent-2:/data/teamcity_agent/conf'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    privileged: true
+    environment:
+      - AGENT_NAME="oci-arm4c-teamcity-agent"
+      - DOCKER_IN_DOCKER="start"
+      - SERVER_URL="http://144.24.91.88:8111"/'
+    image: 'vlrpi/teamcity-agent-arm64v8:ubuntu-xenial-2021.1'
+  teamcity-agent-3:
+    container_name: teamcity-agent-3
+    volumes:
+      - '/app/teamcity-agent-3:/data/teamcity_agent/conf'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    privileged: true
+    environment:
+      - AGENT_NAME="oci-arm4c-teamcity-agent"
+      - DOCKER_IN_DOCKER="start"
+      - SERVER_URL="http://144.24.91.88:8111"/'
+    image: 'vlrpi/teamcity-agent-arm64v8:ubuntu-xenial-2021.1'
