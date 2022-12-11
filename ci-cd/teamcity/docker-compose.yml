@@ -18,7 +18,7 @@ services:
       - AGENT_NAME="oci-arm4c-teamcity-agent-1"
       - DOCKER_IN_DOCKER="start"
       - OWN_PORT="9090"
-      - SERVER_URL="http://144.24.91.88:8111"
+      - SERVER_URL="144.24.91.88:8111"
     image: 'lhysin/teamcity-agent:EAP-linux-arm64'
   teamcity-agent-2:
     container_name: teamcity-agent-2
@@ -30,7 +30,7 @@ services:
       - AGENT_NAME="oci-arm4c-teamcity-agent-2"
       - DOCKER_IN_DOCKER="start"
       - OWN_PORT="9091"
-      - SERVER_URL="http://144.24.91.88:8111"
+      - SERVER_URL=144.24.91.88:8111"
     image: 'lhysin/teamcity-agent:EAP-linux-arm64'
   teamcity-agent-3:
     container_name: teamcity-agent-3
@@ -42,5 +42,5 @@ services:
       - AGENT_NAME="oci-arm4c-teamcity-agent-3"
       - DOCKER_IN_DOCKER="start"
       - OWN_PORT="9092"
-      - SERVER_URL="http://144.24.91.88:8111"
+      - SERVER_URL="144.24.91.88:8111"
     image: 'lhysin/teamcity-agent:EAP-linux-arm64'
