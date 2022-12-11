@@ -4,7 +4,7 @@ services:
   gitlab-ce-arm64v8:
     restart: always
     container_name: gitlab-ce
-    privileged: false
+    privileged: true
     ports:
       - '8180:80'
     hostname: 144.24.91.88

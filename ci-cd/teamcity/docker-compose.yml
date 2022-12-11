@@ -18,7 +18,7 @@ services:
       - AGENT_NAME="oci-arm4c-teamcity-agent"
       - DOCKER_IN_DOCKER="start"
       - SERVER_URL="http://144.24.91.88:8111"
-    image: 'vlrpi/teamcity-agent-arm64v8:ubuntu-xenial-2021.1'
+    image: 'vlrpi/teamcity-agent:ubuntu-xenial-2021.1'
   teamcity-agent-2:
     container_name: teamcity-agent-2
     volumes:
@@ -29,7 +29,7 @@ services:
       - AGENT_NAME="oci-arm4c-teamcity-agent"
       - DOCKER_IN_DOCKER="start"
       - SERVER_URL="http://144.24.91.88:8111"
-    image: 'vlrpi/teamcity-agent-arm64v8:ubuntu-xenial-2021.1'
+    image: 'vlrpi/teamcity-agent:ubuntu-xenial-2021.1'
   teamcity-agent-3:
     container_name: teamcity-agent-3
     volumes:
@@ -40,4 +40,4 @@ services:
       - AGENT_NAME="oci-arm4c-teamcity-agent"
       - DOCKER_IN_DOCKER="start"
       - SERVER_URL="http://144.24.91.88:8111"
-    image: 'vlrpi/teamcity-agent-arm64v8:ubuntu-xenial-2021.1'
+    image: 'vlrpi/teamcity-agent:ubuntu-xenial-2021.1'
