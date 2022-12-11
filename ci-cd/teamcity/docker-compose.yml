@@ -7,7 +7,7 @@ services:
       - '/app/teamcity-server/logs:/opt/teamcity/logs'
     ports:
       - '8111:8111'
-    image: 'vlrpi/teamcity-server:ubuntu-xenial-2021.1'
+    image: 'lhysin/teamcity-server:EAP-linux-arm64'
   teamcity-agent-1:
     container_name: teamcity-agent-1
     volumes:
@@ -15,10 +15,10 @@ services:
       - '/var/run/docker.sock:/var/run/docker.sock'
     privileged: true
     environment:
-      - AGENT_NAME="oci-arm4c-teamcity-agent"
+      - AGENT_NAME="oci-arm4c-teamcity-agent-1"
       - DOCKER_IN_DOCKER="start"
       - SERVER_URL="http://144.24.91.88:8111"
-    image: 'vlrpi/teamcity-agent:ubuntu-xenial-2021.1'
+    image: 'lhysin/teamcity-agent:EAP-linux-arm64'
   teamcity-agent-2:
     container_name: teamcity-agent-2
     volumes:
@@ -26,10 +26,10 @@ services:
       - '/var/run/docker.sock:/var/run/docker.sock'
     privileged: true
     environment:
-      - AGENT_NAME="oci-arm4c-teamcity-agent"
+      - AGENT_NAME="oci-arm4c-teamcity-agent-2"
       - DOCKER_IN_DOCKER="start"
       - SERVER_URL="http://144.24.91.88:8111"
-    image: 'vlrpi/teamcity-agent:ubuntu-xenial-2021.1'
+    image: 'lhysin/teamcity-agent:EAP-linux-arm64'
   teamcity-agent-3:
     container_name: teamcity-agent-3
     volumes:
@@ -37,7 +37,7 @@ services:
       - '/var/run/docker.sock:/var/run/docker.sock'
     privileged: true
     environment:
-      - AGENT_NAME="oci-arm4c-teamcity-agent"
+      - AGENT_NAME="oci-arm4c-teamcity-agent-3"
       - DOCKER_IN_DOCKER="start"
       - SERVER_URL="http://144.24.91.88:8111"
-    image: 'vlrpi/teamcity-agent:ubuntu-xenial-2021.1'
+    image: 'lhysin/teamcity-agent:EAP-linux-arm64'
