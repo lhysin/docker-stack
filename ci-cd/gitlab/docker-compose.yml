@@ -5,10 +5,12 @@ services:
     container_name: gitlab-ce
     privileged: true
     ports:
-      - '8180:80'
+      - '8180:8180'
     hostname: 144.24.91.88
     environment:
-      - GITLAB_OMNIBUS_CONFIG="nginx['redirect_http_to_https'] = true ";
+      - GITLAB_OMNIBUS_CONFIG= |
+      external_url 'http://144.24.91.88:8180/'
+      nginx['redirect_http_to_https'] = true
     volumes:
       - '/app/gitlab-ce/conf:/etc/gitlab:z'
       - '/app/gitlab-ce/logs:/var/log/gitlab:z'
