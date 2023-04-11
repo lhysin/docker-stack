@@ -5,7 +5,7 @@ services:
     image: prom/prometheus
     container_name: prometheus
     volumes:
-      #- ./config:/docker-app/monitoring/config
+      - ./config:/etc/prometheus
       - prometheus:/prometheus
     ports:
       - 9090:9090
@@ -13,11 +13,11 @@ services:
     networks:
       - loki
     command:
-        --web.enable-lifecycle
-        --config.file="/docker-stack/monitoring/config/prometheus-config.yml"
-        --web.listen-address="127.0.0.1:9099"
-        --web.route-prefix="prometheus"
-        --web.external-url="https://dev-nifi.cjoshopping.com/prometheus"
+      --web.enable-lifecycle
+      --config.file="/etc/prometheus/prometheus-config.yml"
+      #--web.listen-address="127.0.0.1:9090"
+      #--web.route-prefix="prometheus"
+      #--web.external-url="http://144.24.91.88:9000/prometheus"
 
   grafana:
     image: grafana/grafana
@@ -30,9 +30,9 @@ services:
     networks:
       - loki
     environment:
-        GF_SERVER_DOMAIN: dev-nifi.cjoshopping.com
-        GF_SERVER_ROOT_URL: https://dev-nifi.cjoshopping.com/grafana
-        GF_SERVER_SERVE_FROM_SUB_PATH: "true"
+      GF_SERVER_DOMAIN: 144.24.91.88:3000
+      GF_SERVER_ROOT_URL: "http://144.24.91.88:3000/grafana"
+      GF_SERVER_SERVE_FROM_SUB_PATH: "true"
 
   loki:
     image: grafana/loki
