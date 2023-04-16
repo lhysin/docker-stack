@@ -1,9 +1,0 @@
-version: '3'
-
-services:
-  arm-exporter:
-    image: prom/arm-exporter
-    container_name: arm-exporter
-    network_mode: host
-    ports:
-      - 9100:9100
