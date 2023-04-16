@@ -4,4 +4,5 @@ services:
   node-exporter:
     image: prom/node-exporter
     container_name: node-exporter
-    network_mode: host
+    ports:
+      - 9100:9100 
