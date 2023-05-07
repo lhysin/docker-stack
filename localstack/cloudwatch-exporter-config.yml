@@ -1,0 +1,12 @@
+region: us-east-1
+aws_access_key_id: test
+aws_secret_access_key: test
+aws_endpoint: http://144.24.91.88:4566 # LocalStack의 CloudWatch 엔드포인트
+aws_disable_ssl: true # SSL 사용 안 함
+metrics:
+  - aws_dimensions:
+    - QueueName
+    aws_metric_name: ApproximateAgeOfOldestMessage
+    aws_namespace: AWS/SQS
+    aws_statistics:
+    - Average
