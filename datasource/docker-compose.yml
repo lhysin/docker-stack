@@ -2,6 +2,28 @@ version: '3.3'
 
 services:
 
+  mysql:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: backoffice
+      MYSQL_DATABASE: backoffice
+      MYSQL_USER: backoffice
+      MYSQL_PASSWORD: backoffice
+    ports:
+      - 3306:3306
+
+  mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: cws
+      MARIADB_DATABASE: cws
+      MARIADB_USER: cws
+      MARIADB_PASSWORD: cws
+    ports:
+      - 3307:3306
+
   adminer:
     image: adminer
     restart: always
