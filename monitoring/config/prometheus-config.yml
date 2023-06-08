@@ -19,7 +19,7 @@ scrape_configs:
     scheme: 'http'
     static_configs:
       - targets: ['144.24.91.88:9100']
-  - job_name: 'item-apiserver'
+  - job_name: 'backoffice-backend'
     metrics_path: '/actuator/prometheus'
     scheme: 'http'
     static_configs:
