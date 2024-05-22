@@ -17,12 +17,12 @@ services:
     image: mariadb
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: cws
-      MARIADB_DATABASE: cws
-      MARIADB_USER: cws
-      MARIADB_PASSWORD: cws
+      MARIADB_ROOT_PASSWORD: imt
+      MARIADB_DATABASE: imt
+      MARIADB_USER: imt
+      MARIADB_PASSWORD: imt
     ports:
-      - 3307:3306
+      - 3305:3306
 
   adminer:
     image: adminer
