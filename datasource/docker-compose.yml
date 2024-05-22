@@ -17,12 +17,14 @@ services:
     image: mariadb
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: imt
-      MARIADB_DATABASE: imt
-      MARIADB_USER: imt
-      MARIADB_PASSWORD: imt
+      MARIADB_ROOT_PASSWORD: maria
+      MARIADB_DATABASE: maria
+      MARIADB_USER: maria
+      MARIADB_PASSWORD: maria
     ports:
       - 3305:3306
+    volumes:
+      - /app/mariadb:/var/lib/mysql
 
   adminer:
     image: adminer
