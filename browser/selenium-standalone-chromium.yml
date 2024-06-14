@@ -1,7 +1,7 @@
 version: '3'
 services:
-  selenium-chrome:
-    image: selenium/standalone-chrome:latest
+  selenium-chromium:
+    image: selenium/standalone-chromium:latest
     ports:
       - 4444:4444
       - 7900:7900
