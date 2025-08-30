@@ -10,7 +10,7 @@ services:
     environment:
       REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /var/lib/registry
     volumes:
-      - /volume1/docker/registry/data:/var/lib/registry
+      - /volume1/docker/registry:/var/lib/registry
 
   registry-ui:
     image: joxit/docker-registry-ui:latest

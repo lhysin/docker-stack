@@ -13,7 +13,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - /volume1/docker/mariadb/data:/var/lib/mysql
+      - /volume1/docker/mariadb:/var/lib/mysql
 
   adminer:
     image: adminer
