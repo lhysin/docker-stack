@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: always
+    network_mode: host # github dns 못찾기때문
+    ports:
+      - "9000:9000"
+      - "9443:9443"
+      - "8000:8000"  # Edge Agent용 WebSocket
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /volume1/docker/portainer/data:/data
+    dns:
+      - 8.8.8.8      # 구글 DNS
+      - 1.1.1.1      # Cloudflare DNS
