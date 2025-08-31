@@ -12,7 +12,7 @@ services:
       REGISTRY_AUTH: "htpasswd"
       REGISTRY_AUTH_HTPASSWD_REALM: "lhysin's Registry Realm"
       REGISTRY_AUTH_HTPASSWD_PATH: "/auth/htpasswd"
-      REGISTRY_HTTP_HEADERS_Access-Control-Allow-Origin: ${NGINX_PROXY_PASS_URL}
+      REGISTRY_HTTP_HEADERS_Access-Control-Allow-Origin: '[${NGINX_PROXY_PASS_URL}]'
       REGISTRY_HTTP_HEADERS_Access-Control-Allow-Methods: '[HEAD,GET,OPTIONS,DELETE]'
       REGISTRY_HTTP_HEADERS_Access-Control-Allow-Credentials: '[true]'
       REGISTRY_HTTP_HEADERS_Access-Control-Allow-Headers: '[Authorization,Accept,Cache-Control]'
