@@ -9,8 +9,12 @@ services:
       - "5555:5000"
     environment:
       REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /var/lib/registry
+      REGISTRY_AUTH: "htpasswd"
+      REGISTRY_AUTH_HTPASSWD_REALM: "lhysin's Registry Realm"
+      REGISTRY_AUTH_HTPASSWD_PATH: "/auth/htpasswd"
     volumes:
       - /volume1/docker/registry:/var/lib/registry
+      - /volume1/docker/registry/auth:/auth
 
   registry-ui:
     image: joxit/docker-registry-ui:latest
