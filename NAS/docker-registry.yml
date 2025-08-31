@@ -23,6 +23,7 @@ services:
     ports:
       - "5556:80"
     environment:
+      REGISTRY_SECURED: true
       NGINX_PROXY_PASS_URL: ${NGINX_PROXY_PASS_URL}
     depends_on:
       - registry
