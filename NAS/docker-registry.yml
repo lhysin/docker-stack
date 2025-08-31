@@ -23,6 +23,6 @@ services:
     ports:
       - "5556:80"
     environment:
-      - NGINX_PROXY_PASS_URL=http://registry:5000
+      NGINX_PROXY_PASS_URL: ${NGINX_PROXY_PASS_URL}
     depends_on:
       - registry
