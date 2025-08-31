@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  netdata:
+    image: netdata/netdata:latest
+    container_name: netdata
+    hostname: netdata
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    ports:
+      - "19999:19999"    # 브라우저 접속 포트
+    volumes:
+      - /volume1/docker/netdata/netdataconfig:/etc/netdata
+      - /volume1/docker/netdata/netdatalib:/var/lib/netdata
+      - /volume1/docker/netdata/netdatacache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+    restart: unless-stopped

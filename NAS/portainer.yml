@@ -12,6 +12,3 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /volume1/docker/portainer/data:/data
-    dns:
-      - 8.8.8.8      # 구글 DNS
-      - 1.1.1.1      # Cloudflare DNS
