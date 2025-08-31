@@ -11,7 +11,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - /volume1/docker/mongo:/data/db
+      - /volume1/docker/mongodb:/data/db
 
   mongo-express:
     image: mongo-express:latest
