@@ -1,15 +1,14 @@
 version: "3.9"
 
 services:
-
   mariadb:
     image: mariadb
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: Xharhdiddl!@#
-      MARIADB_DATABASE: maria
-      MARIADB_USER: maria
-      MARIADB_PASSWORD: Xharhdiddl!@#
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
     ports:
       - 3306:3306
     volumes:
@@ -20,3 +19,10 @@ services:
     restart: always
     ports:
       - 3307:8080
+
+
+# .env
+# MARIADB_ROOT_PASSWORD=secret
+# MARIADB_DATABASE=secret
+# MARIADB_USER=maria
+# MARIADB_PASSWORD=secret
