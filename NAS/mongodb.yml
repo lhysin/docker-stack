@@ -2,7 +2,8 @@ version: "3.9"
 
 services:
   mongo:
-    image: mongo:6.0
+   # image: mongo:6.0  # Requires AVX, not supported on DS224+
+    image: mongo:4.4.29  # Latest stable version without AVX requirement
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
