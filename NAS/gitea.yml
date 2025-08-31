@@ -1,9 +1,5 @@
 version: "3.9"
 
-networks:
-  gitea:
-    external: false
-
 services:
   server:
     image: docker.gitea.com/gitea:1.24.5
@@ -11,11 +7,8 @@ services:
     environment:
       - USER_UID=1000
       - USER_GID=1000
-      - GITEA__SECURITY__ALLOWED_DOMAINS=github.com,gitlab.com
-      - GITEA__SECURITY__ALLOW_LOCALNETWORKS=true
     restart: always
-    networks:
-      - gitea
+    network_mode: host
     volumes:
       - /volume1/docker/gitea:/data
       # - /etc/timezone:/etc/timezone:ro
