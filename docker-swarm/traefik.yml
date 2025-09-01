@@ -37,8 +37,6 @@ services:
           - node.role == manager
       restart_policy:
         condition: on-failure
-    env_file:
-      - .env
 
   echo-server:
     image: lhysin/echo-server
