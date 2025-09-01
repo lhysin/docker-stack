@@ -1,0 +1,70 @@
+version: "3.9"
+
+services:
+  traefik:
+    image: traefik:v2.11
+    command:
+      # Docker Provider
+      - "--providers.docker=true"
+      - "--providers.docker.swarmmode=true"
+      - "--providers.docker.exposedbydefault=false"
+
+      # Entrypoints (하드코딩)
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+
+      # Let's Encrypt 설정 (HTTP Challenge)
+      - "--certificatesresolvers.${CERT_RESOLVER}.acme.httpchallenge=true"
+      - "--certificatesresolvers.${CERT_RESOLVER}.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.${CERT_RESOLVER}.acme.email=${LE_EMAIL}"
+      - "--certificatesresolvers.${CERT_RESOLVER}.acme.storage=/letsencrypt/acme.json"
+
+      # HTTP -> HTTPS 리다이렉트
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "traefik-letsencrypt:/letsencrypt"
+    networks:
+      - web
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+    env_file:
+      - .env
+
+  echo-server:
+    image: lhysin/echo-server
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.echo.rule=Host(`${DOMAIN}`)"
+        - "traefik.http.routers.echo.entrypoints=websecure"
+        - "traefik.http.routers.echo.tls.certresolver=${CERT_RESOLVER}"
+        - "traefik.http.services.echo.loadbalancer.server.port=8080"
+    networks:
+      - web
+
+networks:
+  web:
+    external: true
+
+volumes:
+  traefik-letsencrypt:
+
+
+# 인증서 레졸버 이름
+#CERT_RESOLVER=blah
+
+# Let's Encrypt 이메일
+#LE_EMAIL=blah@gmail.com
+
+# 서비스 도메인
+#DOMAIN=blah.ddns.net
