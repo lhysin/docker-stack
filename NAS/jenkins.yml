@@ -10,5 +10,13 @@ services:
       - "18080:8080"  # Jenkins UI
       - "50000:50000" # Jenkins Agent 연결용
     volumes:
-      - /volume1/docker/jenkins:/var/jenkins_home
+      - jenkins_home:/var/jenkins_home  # named volume 사용
       - /var/run/docker.sock:/var/run/docker.sock  # Docker in Docker 사용 시
+
+volumes:
+  jenkins_home:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/jenkins  # 호스트 경로 지정
+      o: bind

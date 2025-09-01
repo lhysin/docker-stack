@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ee:<version>-ee.0
+    container_name: gitlab
+    restart: always
+    hostname: 'gitlab.example.com'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        # Add any other gitlab.rb configuration here, each on its own line
+        external_url 'https://gitlab.example.com'
+    ports:
+      - '80:80'
+      - '443:443'
+      - '22:22'
+    volumes:
+      - gitlab_config:/etc/gitlab
+      - gitlab_logs:/var/log/gitlab
+      - gitlab_data:/var/opt/gitlab
+    shm_size: '256m'
+
+volumes:
+  gitlab_config:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/gitlab/config
+      o: bind
+  gitlab_logs:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/gitlab/logs
+      o: bind
+  gitlab_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/gitlab/data
+      o: bind

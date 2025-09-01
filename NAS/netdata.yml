@@ -11,9 +11,9 @@ services:
     ports:
       - "19999:19999"    # 브라우저 접속 포트
     volumes:
-      - /volume1/docker/netdata/netdataconfig:/etc/netdata
-      - /volume1/docker/netdata/netdatalib:/var/lib/netdata
-      - /volume1/docker/netdata/netdatacache:/var/cache/netdata
+      - netdata_config:/etc/netdata
+      - netdata_lib:/var/lib/netdata
+      - netdata_cache:/var/cache/netdata
       #- /:/host/root:ro,rslave
       - /etc/passwd:/host/etc/passwd:ro
       - /etc/group:/host/etc/group:ro
@@ -24,3 +24,23 @@ services:
       - /var/log:/host/var/log:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     restart: unless-stopped
+
+volumes:
+  netdata_config:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/netdata/netdataconfig
+      o: bind
+  netdata_lib:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/netdata/netdatalib
+      o: bind
+  netdata_cache:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/netdata/netdatacache
+      o: bind

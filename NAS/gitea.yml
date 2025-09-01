@@ -9,9 +9,17 @@ services:
       - USER_GID=1000
     restart: always
     volumes:
-      - /volume1/docker/gitea:/data
+      - gitea_data:/data  # named volume 사용
       # - /etc/timezone:/etc/timezone:ro
       # - /etc/localtime:/etc/localtime:ro
     ports:
       - "3000:3000"
       - "222:22"
+
+volumes:
+  gitea_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/gitea  # 호스트 경로 지정
+      o: bind

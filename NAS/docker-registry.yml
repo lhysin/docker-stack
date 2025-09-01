@@ -19,8 +19,8 @@ services:
       REGISTRY_HTTP_HEADERS_Access-Control-Expose-Headers: '[Docker-Content-Digest]'
       REGISTRY_STORAGE_DELETE_ENABLED: 'true'
     volumes:
-      - /volume1/docker/registry:/var/lib/registry
-      - /volume1/docker/registry/auth:/auth
+      - registry_data:/var/lib/registry
+      - registry_auth:/auth
 
   registry-ui:
     image: joxit/docker-registry-ui:latest
@@ -33,3 +33,17 @@ services:
       - NGINX_PROXY_PASS_URL=http://registry:5000
     depends_on:
       - registry
+
+volumes:
+  registry_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/registry
+      o: bind
+  registry_auth:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/registry/auth
+      o: bind

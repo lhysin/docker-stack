@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  android-emulator:
+    image: circleci/android:api-30
+    container_name: android-emulator
+    ports:
+      - "5555:5555"  # ADB 포트
+      - "5900:5900"  # VNC 포트 (원격으로 화면을 볼 수 있음)
+    environment:
+      - VNC_PASSWORD=password  # VNC 비밀번호 설정
+    privileged: true  # Emulator에 필요한 권한 부여
+    networks:
+      - appium-network
+    command: > 
+      /bin/bash -c "emulator -avd Pixel_3a_API_30_x86 -no-window -no-audio -gpu swiftshader_indirect"
+
+  appium:
+    image: appium/appium
+    container_name: appium
+    ports:
+      - "4723:4723"  # Appium 서버 포트
+    networks:
+      - appium-network
+    command: appium  # Appium 서버 실행
+
+networks:
+  appium-network:
+    driver: bridge
