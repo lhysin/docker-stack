@@ -14,7 +14,27 @@ services:
     ports:
       - "80:80"
     volumes:
-      - './config:/etc/gitlab'
-      - './logs:/var/log/gitlab'
-      - './data:/var/opt/gitlab'
+      - gitlab_config:/etc/gitlab
+      - gitlab_logs:/var/log/gitlab
+      - gitlab_data:/var/opt/gitlab
     shm_size: '256m'
+
+volumes:
+  gitlab_config:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/gitlab/config
+      o: bind
+  gitlab_logs:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/gitlab/logs
+      o: bind
+  gitlab_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/gitlab/data
+      o: bind
