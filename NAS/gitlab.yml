@@ -9,6 +9,7 @@ services:
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         nginx['listen_https'] = false
+        nginx['listen_port'] = 80
         gitlab_rails['registry_enabled'] = true
         external_url '${GITLAB_EXTERNAL_URL}'
         registry_external_url '${GITLAB_REGISTRY_URL}'
