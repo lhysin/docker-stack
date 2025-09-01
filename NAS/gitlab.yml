@@ -9,6 +9,7 @@ services:
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         nginx['listen_https'] = false
+        gitlab_rails['registry_enabled'] = true
     ports:
       - "2280:80"
     volumes:
