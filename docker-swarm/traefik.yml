@@ -68,3 +68,7 @@ volumes:
 
 # 서비스 도메인
 #DOMAIN=blah.ddns.net
+
+# mkdir -p traefik-letsencrypt
+# touch traefik-letsencrypt/acme.json
+# chmod 600 traefik-letsencrypt/acme.json
