@@ -13,7 +13,7 @@ services:
         registry_external_url '${GITLAB_REGISTRY_URL}'
     ports:
       - "2280:80"
-      - "25005:5005"
+      - "25050:5050"
     volumes:
       - gitlab_config:/etc/gitlab
       - gitlab_logs:/var/log/gitlab
