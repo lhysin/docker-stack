@@ -62,5 +62,5 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /volume1/docker/portus/db
+      device: /volume1/docker/registry/portus
       o: bind
