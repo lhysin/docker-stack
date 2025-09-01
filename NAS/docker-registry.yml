@@ -17,34 +17,6 @@ services:
       - registry_data:/var/lib/registry
       - registry_auth:/auth
 
-  portus:
-    image: opensuse/portus:head
-    container_name: portus
-    restart: always
-    ports:
-      - "5556:3000"  # Portus 웹 UI
-    environment:
-      PORTUS_MACHINE_FQDN: "localhost:5556"
-      PORTUS_DB_PASSWORD: "your_db_password"
-      PORTUS_DB_USERNAME: "portus"
-      PORTUS_DB_HOST: "portus_db"
-      PORTUS_SECRET_KEY_BASE: "long_secret_key_here"
-    depends_on:
-      - registry
-      - portus_db
-
-  portus_db:
-    image: mariadb:10.5
-    container_name: portus_db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: "root_password"
-      MYSQL_DATABASE: "portus"
-      MYSQL_USER: "portus"
-      MYSQL_PASSWORD: "your_db_password"
-    volumes:
-      - portus_db_data:/var/lib/mysql
-
 volumes:
   registry_data:
     driver: local
@@ -57,10 +29,4 @@ volumes:
     driver_opts:
       type: none
       device: /volume1/docker/registry/auth
-      o: bind
-  portus_db_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: /volume1/docker/registry/portus
       o: bind
