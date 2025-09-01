@@ -4,22 +4,15 @@ services:
   traefik:
     image: traefik:v2.11
     command:
-      # Docker Provider
       - "--providers.docker=true"
       - "--providers.docker.swarmmode=true"
       - "--providers.docker.exposedbydefault=false"
-
-      # Entrypoints
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-
-      # Let's Encrypt HTTP Challenge
       - "--certificatesresolvers.${CERT_RESOLVER}.acme.httpchallenge=true"
       - "--certificatesresolvers.${CERT_RESOLVER}.acme.httpchallenge.entrypoint=web"
       - "--certificatesresolvers.${CERT_RESOLVER}.acme.email=${LE_EMAIL}"
       - "--certificatesresolvers.${CERT_RESOLVER}.acme.storage=/letsencrypt/acme.json"
-
-      # HTTP -> HTTPS 리다이렉트
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
       - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
     ports:
@@ -37,7 +30,8 @@ services:
     networks:
       - web
     deploy:
-      mode: global
+      mode: replicated
+      replicas: 1
       placement:
         constraints:
           - node.role == manager
@@ -62,7 +56,6 @@ networks:
 
 volumes:
   traefik-letsencrypt:
-
 
 # 인증서 레졸버 이름
 #CERT_RESOLVER=blah
