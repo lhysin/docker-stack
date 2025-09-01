@@ -12,13 +12,21 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - /volume1/docker/mariadb:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql  # named volume 사용
 
   adminer:
     image: adminer
     restart: always
     ports:
       - 3307:8080
+
+volumes:
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/mariadb  # 호스트 경로 지정
+      o: bind
 
 
 # .env

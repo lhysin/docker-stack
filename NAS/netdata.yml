@@ -43,4 +43,4 @@ volumes:
     driver_opts:
       type: none
       device: /volume1/docker/netdata/netdatacache
-      o: bind
+      o: bindㅋ
