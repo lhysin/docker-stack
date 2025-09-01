@@ -8,25 +8,13 @@ services:
       - "--providers.docker.swarmmode=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.${CERT_RESOLVER}.acme.httpchallenge=true"
-      - "--certificatesresolvers.${CERT_RESOLVER}.acme.httpchallenge.entrypoint=web"
-      - "--certificatesresolvers.${CERT_RESOLVER}.acme.email=${LE_EMAIL}"
-      - "--certificatesresolvers.${CERT_RESOLVER}.acme.storage=/letsencrypt/acme.json"
-      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
-      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
     ports:
       - target: 80
         published: 80
         protocol: tcp
         mode: ingress
-      - target: 443
-        published: 443
-        protocol: tcp
-        mode: ingress
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "traefik-letsencrypt:/letsencrypt"
     networks:
       - web
     deploy:
@@ -44,8 +32,7 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.echo.rule=Host(`${DOMAIN}`)"
-        - "traefik.http.routers.echo.entrypoints=websecure"
-        - "traefik.http.routers.echo.tls.certresolver=${CERT_RESOLVER}"
+        - "traefik.http.routers.echo.entrypoints=web"
         - "traefik.http.services.echo.loadbalancer.server.port=8080"
     networks:
       - web
