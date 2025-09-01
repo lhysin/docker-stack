@@ -10,6 +10,7 @@ services:
       GITLAB_OMNIBUS_CONFIG: |
         nginx['listen_https'] = false
         gitlab_rails['registry_enabled'] = true
+        registry_external_url '${GITLAB_REGISTRY_URL}'
     ports:
       - "2280:80"
       - "25005:5005"
