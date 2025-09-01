@@ -10,29 +10,40 @@ services:
     environment:
       REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /var/lib/registry
       REGISTRY_AUTH: "htpasswd"
-      REGISTRY_AUTH_HTPASSWD_REALM: "lhysin's Registry Realm"
+      REGISTRY_AUTH_HTPASSWD_REALM: "Registry Realm"
       REGISTRY_AUTH_HTPASSWD_PATH: "/auth/htpasswd"
-      REGISTRY_HTTP_HEADERS_Access-Control-Allow-Origin: '[${NGINX_PROXY_PASS_URL}]'
-      REGISTRY_HTTP_HEADERS_Access-Control-Allow-Methods: '[HEAD,GET,OPTIONS,DELETE]'
-      REGISTRY_HTTP_HEADERS_Access-Control-Allow-Credentials: '[true]'
-      REGISTRY_HTTP_HEADERS_Access-Control-Allow-Headers: '[Authorization,Accept,Cache-Control]'
-      REGISTRY_HTTP_HEADERS_Access-Control-Expose-Headers: '[Docker-Content-Digest]'
       REGISTRY_STORAGE_DELETE_ENABLED: 'true'
     volumes:
       - registry_data:/var/lib/registry
       - registry_auth:/auth
 
-  registry-ui:
-    image: joxit/docker-registry-ui:latest
-    container_name: registry_ui
+  portus:
+    image: opensuse/portus:head
+    container_name: portus
     restart: always
     ports:
-      - "5556:80"
+      - "5556:3000"  # Portus 웹 UI
     environment:
-      - REGISTRY_SECURED=true
-      - NGINX_PROXY_PASS_URL=http://registry:5000
+      PORTUS_MACHINE_FQDN: "localhost:5556"
+      PORTUS_DB_PASSWORD: "your_db_password"
+      PORTUS_DB_USERNAME: "portus"
+      PORTUS_DB_HOST: "portus_db"
+      PORTUS_SECRET_KEY_BASE: "long_secret_key_here"
     depends_on:
       - registry
+      - portus_db
+
+  portus_db:
+    image: mariadb:10.5
+    container_name: portus_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "root_password"
+      MYSQL_DATABASE: "portus"
+      MYSQL_USER: "portus"
+      MYSQL_PASSWORD: "your_db_password"
+    volumes:
+      - portus_db_data:/var/lib/mysql
 
 volumes:
   registry_data:
@@ -46,4 +57,10 @@ volumes:
     driver_opts:
       type: none
       device: /volume1/docker/registry/auth
+      o: bind
+  portus_db_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/portus/db
       o: bind
