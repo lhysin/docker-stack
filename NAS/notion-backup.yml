@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  notion-backup:
+    image: ghcr.io/jckleiner/notion-backup:latest
+    container_name: notion-backup
+    environment:
+      # Notion 계정 관련
+      NOTION_SPACE_ID: ${NOTION_SPACE_ID}
+      NOTION_TOKEN_V2: ${NOTION_TOKEN_V2}
+
+      # 옵션
+      NOTION_EXPORT_TYPE: "markdown"      # 또는 html
+      NOTION_FLATTEN_EXPORT_FILETREE: "false"
+      NOTION_EXPORT_COMMENTS: "true"
+
+      # 컨테이너 내부 다운로드 경로
+      DOWNLOADS_DIRECTORY_PATH: "/downloads"
+    volumes:
+      - notion_backup_data:/downloads
+    restart: "no"
+
+volumes:
+  notion_backup_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/notion-backup/data
+      o: bind
