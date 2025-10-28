@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  pyload:
+    image: lscr.io/linuxserver/pyload
+    container_name: pyload
+    volumes:
+      - pyload_data:/downloads
+    ports:
+      - 28000:8000
+    restart: unless-stopped
+
+volumes:
+  pyload_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /volume1/docker/pyload/data
+      o: bind
