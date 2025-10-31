@@ -6,7 +6,6 @@ services:
     container_name: jdownloader
     ports:
       - "5800:5800"
-    environment:
     volumes:
       - jdownloader_downloads:/output
     restart: unless-stopped
