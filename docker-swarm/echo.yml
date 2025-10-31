@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+
+  echo-server:
+    image: ealen/echo-server:latest
+    environment:
+      - PORT=8080
+    networks:
+      - traefik-public
+    deploy:
+      replicas: 4
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 128M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+      labels:
+        - "traefik.enable=true"
+        # HTTPS Router
+        - "traefik.http.routers.echo.rule=Host(`{ECHO_SERVER_HOST}`)"
+        - "traefik.http.routers.echo.entrypoints=websecure"
+        - "traefik.http.routers.echo.tls=true"
+        - "traefik.http.routers.echo.tls.certresolver=le"
+        - "traefik.http.routers.echo.tls.domains[0].main={ECHO_SERVER_HOST}"
+        # HTTP Router (리다이렉트용)
+        - "traefik.http.routers.echo-http.rule=Host(`{ECHO_SERVER_HOST}`)"
+        - "traefik.http.routers.echo-http.entrypoints=web"
+        # Service
+        - "traefik.http.services.echo.loadbalancer.server.port=8080"
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+
+networks:
+  traefik-public:
+    external: true
+
+
+# {ECHO_SERVER_HOST}
