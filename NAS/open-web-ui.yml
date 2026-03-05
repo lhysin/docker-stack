@@ -12,12 +12,12 @@ services:
     ports:
       - "3300:8080"
     volumes:
-      - openwebui_data:/app/backend/data
+      - open-web-ui_data:/app/backend/data
 
 volumes:
-  openwebui_data:
+  open-web-ui_data:
     driver: local
     driver_opts:
       type: none
-      device: /volume1/docker/openwebui/data
+      device: /volume1/docker/open-web-ui/data
       o: bind
