@@ -1,0 +1,59 @@
+services:
+  openclaw-gateway:
+    image: ghcr.io/openclaw/openclaw:latest
+    container_name: openclaw-gateway
+    restart: always
+    ports:
+      - "18789:18789"
+    volumes:
+      - openclaw_config:/home/node/.openclaw
+      - openclaw_workspace:/home/node/.openclaw/workspace
+      - code_server_local:/home/node/shared/code-server/local
+      - code_server_config:/home/node/shared/code-server/config
+      - code_server_project:/home/node/shared/code-server/project
+      - n8n_data:/home/node/shared/n8n
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - oci_apps
+
+  openclaw-cli:
+    image: ghcr.io/openclaw/openclaw:latest
+    container_name: openclaw-cli
+    profiles:
+      - tools
+    stdin_open: true
+    tty: true
+    network_mode: "service:openclaw-gateway"
+    depends_on:
+      - openclaw-gateway
+    volumes:
+      - openclaw_config:/home/node/.openclaw
+      - openclaw_workspace:/home/node/.openclaw/workspace
+      - code_server_local:/home/node/shared/code-server/local
+      - code_server_config:/home/node/shared/code-server/config
+      - code_server_project:/home/node/shared/code-server/project
+      - n8n_data:/home/node/shared/n8n
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  openclaw_config:
+    name: openclaw_config
+  openclaw_workspace:
+    name: openclaw_workspace
+  code_server_local:
+    external: true
+    name: code_server_local
+  code_server_config:
+    external: true
+    name: code_server_config
+  code_server_project:
+    external: true
+    name: code_server_project
+  n8n_data:
+    external: true
+    name: n8n_data
+
+networks:
+  oci_apps:
+    name: oci_apps
+    external: true
