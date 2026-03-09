@@ -7,8 +7,6 @@ services:
       - "18789:18789"
     volumes:
       - openclaw_home:/home/node
-      - code_server_local:/home/node/shared/code-server/local
-      - code_server_config:/home/node/shared/code-server/config
       - code_server_project:/home/node/shared/code-server/project
       - n8n_data:/home/node/shared/n8n
       - /var/run/docker.sock:/var/run/docker.sock
@@ -25,8 +23,6 @@ services:
       - openclaw-gateway
     volumes:
       - openclaw_home:/home/node
-      - code_server_local:/home/node/shared/code-server/local
-      - code_server_config:/home/node/shared/code-server/config
       - code_server_project:/home/node/shared/code-server/project
       - n8n_data:/home/node/shared/n8n
       - /var/run/docker.sock:/var/run/docker.sock
@@ -34,12 +30,6 @@ services:
 volumes:
   openclaw_home:
     name: openclaw_home
-  code_server_local:
-    external: true
-    name: code_server_local
-  code_server_config:
-    external: true
-    name: code_server_config
   code_server_project:
     external: true
     name: code_server_project
