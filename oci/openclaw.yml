@@ -3,6 +3,51 @@ services:
     image: ghcr.io/openclaw/openclaw:latest
     container_name: openclaw-gateway
     restart: always
+    environment:
+      OPENCLAW_GATEWAY_PORT: "18789"
+      OPENCLAW_PUBLIC_ORIGINS: "http://140.245.66.39:18789,https://oci-openclaw.lhysin.synology.me"
+      OPENCLAW_GATEWAY_TOKEN: "bb95696fe3f15ff80ddf57df2c294188b4682b271f01b28b"
+    command:
+      - sh
+      - -lc
+      - |
+        mkdir -p /home/node/.openclaw
+        node <<'NODE'
+        const fs = require("fs");
+        const path = "/home/node/.openclaw/openclaw.json";
+        const port = process.env.OPENCLAW_GATEWAY_PORT || "18789";
+        const publicOrigins = (process.env.OPENCLAW_PUBLIC_ORIGINS || "")
+          .split(",")
+          .map((value) => value.trim())
+          .filter(Boolean);
+        const gatewayToken = process.env.OPENCLAW_GATEWAY_TOKEN || "";
+        let data = {};
+        try {
+          data = JSON.parse(fs.readFileSync(path, "utf8"));
+        } catch {}
+        data.gateway ??= {};
+        data.gateway.bind = "lan";
+        data.gateway.port = Number(port);
+        data.gateway.auth ??= {};
+        data.gateway.auth.mode = "token";
+        if (gatewayToken) {
+          data.gateway.auth.token = gatewayToken;
+        }
+        data.gateway.controlUi ??= {};
+        const allowedOrigins = [];
+        for (const origin of [
+          `http://127.0.0.1:${port}`,
+          `http://localhost:${port}`,
+          ...publicOrigins
+        ]) {
+          if (typeof origin === "string" && origin && !allowedOrigins.includes(origin)) {
+            allowedOrigins.push(origin);
+          }
+        }
+        data.gateway.controlUi.allowedOrigins = allowedOrigins;
+        fs.writeFileSync(path, JSON.stringify(data, null, 2) + "\n");
+        NODE
+        exec node openclaw.mjs gateway --allow-unconfigured --auth token --bind lan --port "${OPENCLAW_GATEWAY_PORT:-18789}"
     ports:
       - "18789:18789"
     volumes:
