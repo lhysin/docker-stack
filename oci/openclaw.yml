@@ -13,8 +13,6 @@ services:
       - code_server_project:/home/node/shared/code-server/project
       - n8n_data:/home/node/shared/n8n
       - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - oci_apps
 
   openclaw-cli:
     image: ghcr.io/openclaw/openclaw:latest
@@ -52,8 +50,3 @@ volumes:
   n8n_data:
     external: true
     name: n8n_data
-
-networks:
-  oci_apps:
-    name: oci_apps
-    external: true

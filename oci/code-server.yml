@@ -10,8 +10,6 @@ services:
       - code_server_local:/home/coder/.local
       - code_server_config:/home/coder/.config
       - code_server_project:/home/coder/project
-    networks:
-      - oci_apps
 
 volumes:
   code_server_local:
@@ -20,8 +18,3 @@ volumes:
     name: code_server_config
   code_server_project:
     name: code_server_project
-
-networks:
-  oci_apps:
-    name: oci_apps
-    external: true
