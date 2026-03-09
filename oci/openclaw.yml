@@ -3,41 +3,6 @@ services:
     image: ghcr.io/openclaw/openclaw:latest
     container_name: openclaw-gateway
     restart: always
-    environment:
-      OPENCLAW_GATEWAY_PORT: "18789"
-      OPENCLAW_PUBLIC_ORIGIN: "http://140.245.66.39:18789"
-    command:
-      - sh
-      - -lc
-      - |
-        mkdir -p /home/node/.openclaw
-        node <<'NODE'
-        const fs = require("fs");
-        const path = "/home/node/.openclaw/openclaw.json";
-        const port = process.env.OPENCLAW_GATEWAY_PORT || "18789";
-        const publicOrigin = process.env.OPENCLAW_PUBLIC_ORIGIN || "";
-        let data = {};
-        try {
-          data = JSON.parse(fs.readFileSync(path, "utf8"));
-        } catch {}
-        data.gateway ??= {};
-        data.gateway.auth ??= {};
-        data.gateway.auth.mode = "token";
-        data.gateway.controlUi ??= {};
-        const allowedOrigins = [];
-        for (const origin of [
-          `http://127.0.0.1:${port}`,
-          `http://localhost:${port}`,
-          publicOrigin
-        ]) {
-          if (typeof origin === "string" && origin && !allowedOrigins.includes(origin)) {
-            allowedOrigins.push(origin);
-          }
-        }
-        data.gateway.controlUi.allowedOrigins = allowedOrigins;
-        fs.writeFileSync(path, JSON.stringify(data, null, 2) + "\n");
-        NODE
-        exec node openclaw.mjs gateway --allow-unconfigured --auth token --bind lan --port "${OPENCLAW_GATEWAY_PORT:-18789}"
     ports:
       - "18789:18789"
     volumes:
