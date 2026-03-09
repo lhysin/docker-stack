@@ -6,9 +6,9 @@ services:
     ports:
       - "18789:18789"
     volumes:
-      - openclaw_home:/home/node
-      - code_server_project:/home/node/shared/code-server/project
-      - n8n_data:/home/node/shared/n8n
+      - /data/docker/openclaw/home:/home/node
+      - /data/docker/code-server/project:/home/node/shared/code-server/project
+      - /data/docker/n8n/data:/home/node/shared/n8n
       - /var/run/docker.sock:/var/run/docker.sock
 
   openclaw-cli:
@@ -22,17 +22,7 @@ services:
     depends_on:
       - openclaw-gateway
     volumes:
-      - openclaw_home:/home/node
-      - code_server_project:/home/node/shared/code-server/project
-      - n8n_data:/home/node/shared/n8n
+      - /data/docker/openclaw/home:/home/node
+      - /data/docker/code-server/project:/home/node/shared/code-server/project
+      - /data/docker/n8n/data:/home/node/shared/n8n
       - /var/run/docker.sock:/var/run/docker.sock
-
-volumes:
-  openclaw_home:
-    name: openclaw_home
-  code_server_project:
-    external: true
-    name: code_server_project
-  n8n_data:
-    external: true
-    name: n8n_data

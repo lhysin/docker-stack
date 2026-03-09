@@ -10,8 +10,4 @@ services:
     ports:
       - "15678:5678"
     volumes:
-      - n8n_data:/home/node/.n8n
-
-volumes:
-  n8n_data:
-    name: n8n_data
+      - /data/docker/n8n/data:/home/node/.n8n

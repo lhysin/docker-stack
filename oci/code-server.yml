@@ -3,17 +3,10 @@ services:
     image: codercom/code-server:latest
     container_name: code-server
     restart: always
+    user: "1000:1000"
     ports:
       - "18080:8080"
     volumes:
-      - code_server_local:/home/coder/.local
-      - code_server_config:/home/coder/.config
-      - code_server_project:/home/coder/project
-
-volumes:
-  code_server_local:
-    name: code_server_local
-  code_server_config:
-    name: code_server_config
-  code_server_project:
-    name: code_server_project
+      - /data/docker/code-server/local:/home/coder/.local
+      - /data/docker/code-server/config:/home/coder/.config
+      - /data/docker/code-server/project:/home/coder/project
