@@ -6,8 +6,9 @@ services:
     image: httpd:2-alpine
     container_name: registry-auth
     restart: "no"
-    env_file:
-      - ./docker-registry.env
+    environment:
+      REGISTRY_USERNAME: ${REGISTRY_USERNAME}
+      REGISTRY_PASSWORD: ${REGISTRY_PASSWORD}
     command: >-
       sh -c "test -n \"$$REGISTRY_USERNAME\" &&
       test -n \"$$REGISTRY_PASSWORD\" &&
