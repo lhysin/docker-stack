@@ -1,32 +1,48 @@
-version: "3.9"
+# REGISTRY_USERNAME=admin
+# REGISTRY_PASSWORD=admin
 
 services:
+  registry-auth:
+    image: httpd:2-alpine
+    container_name: registry-auth
+    restart: "no"
+    env_file:
+      - ./docker-registry.env
+    command: >-
+      sh -c "test -n \"$$REGISTRY_USERNAME\" &&
+      test -n \"$$REGISTRY_PASSWORD\" &&
+      mkdir -p /auth &&
+      htpasswd -Bbn \"$$REGISTRY_USERNAME\" \"$$REGISTRY_PASSWORD\" > /auth/htpasswd &&
+      chmod 640 /auth/htpasswd"
+    volumes:
+      - /volume1/docker/registry/auth:/auth
+
   registry:
-    image: registry:2.7
+    image: registry:3
     container_name: registry
     restart: always
-    ports:
-      - "5555:5000"
+    depends_on:
+      registry-auth:
+        condition: service_completed_successfully
     environment:
-      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /var/lib/registry
-      REGISTRY_AUTH: "htpasswd"
-      REGISTRY_AUTH_HTPASSWD_REALM: "Registry Realm"
-      REGISTRY_AUTH_HTPASSWD_PATH: "/auth/htpasswd"
-      REGISTRY_STORAGE_DELETE_ENABLED: 'true'
+      REGISTRY_STORAGE_DELETE_ENABLED: "true"
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
     volumes:
-      - registry_data:/var/lib/registry
-      - registry_auth:/auth
+      - /volume1/docker/registry/data:/var/lib/registry
+      - /volume1/docker/registry/auth:/auth:ro
 
-volumes:
-  registry_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: /volume1/docker/registry
-      o: bind
-  registry_auth:
-    driver: local
-    driver_opts:
-      type: none
-      device: /volume1/docker/registry/auth
-      o: bind
+  registry-ui:
+    image: joxit/docker-registry-ui:2.6.0
+    container_name: registry-ui
+    restart: always
+    depends_on:
+      - registry
+    ports:
+      - "5555:80"
+    environment:
+      REGISTRY_TITLE: Private Docker Registry
+      DELETE_IMAGES: "true"
+      NGINX_PROXY_PASS_URL: http://registry:5000
+      REGISTRY_SECURED: "true"
