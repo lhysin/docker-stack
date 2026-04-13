@@ -1,7 +1,7 @@
 services:
   openclaw-gateway:
     user: "1000:1000"
-    image: ghcr.io/openclaw/openclaw:latest
+    image: ghcr.io/openclaw/openclaw:2026.4.12-beta.1-slim
     container_name: openclaw-gateway
     restart: always
     environment:
